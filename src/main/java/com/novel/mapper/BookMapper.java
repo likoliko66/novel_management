@@ -63,6 +63,17 @@ public interface BookMapper extends BaseMapper<Book> {
             "FROM book USE INDEX (idx_book_author_id_update_time) WHERE author_id = #{authorId} ORDER BY update_time DESC")
     List<Book> selectSimpleByAuthorId(@Param("authorId") Long authorId);
 
+    /**
+     * 查询待审核作品列表（轻量级，不包含cover和description大字段）
+     */
+    @Select("SELECT id, book_name, category_id, author_id, author_name, status, " +
+            "visit_count, favorite_count, total_words, last_chapter_id, last_chapter_name, " +
+            "audit_status, audit_remark, submit_time, audit_time, create_time, update_time " +
+            "FROM book WHERE audit_status = #{auditStatus} ORDER BY submit_time DESC LIMIT #{offset}, #{limit}")
+    List<Book> selectPendingBooksSimple(@Param("auditStatus") Integer auditStatus,
+                                        @Param("offset") Integer offset,
+                                        @Param("limit") Integer limit);
+
     @Select("SELECT * FROM book WHERE status = 0 ORDER BY ${sortBy} DESC LIMIT #{limit}")
     List<Book> getRankingBooks(@Param("sortBy") String sortBy, @Param("limit") Integer limit);
 

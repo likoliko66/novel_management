@@ -258,13 +258,11 @@ public class AdminServiceImpl implements AdminService {
         if (pageNum == null || pageNum < 1) pageNum = 1;
         if (pageSize == null || pageSize < 1) pageSize = 10;
 
-        Page<Book> page = new Page<>(pageNum, pageSize);
-        LambdaQueryWrapper<Book> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Book::getAuditStatus, 1);
-        wrapper.orderByDesc(Book::getSubmitTime);
+        int offset = (pageNum - 1) * pageSize;
 
-        IPage<Book> bookPage = bookMapper.selectPage(page, wrapper);
-        List<Book> books = bookPage.getRecords();
+        // 使用轻量级查询，避免查询cover和description大字段
+        List<Book> books = bookMapper.selectPendingBooksSimple(1, offset, pageSize);
+        long total = bookMapper.countByAuditStatus(1);
 
         log.debug("查询待审核作品耗时: {}ms, 数量: {}", System.currentTimeMillis() - startTime, books.size());
 
@@ -272,10 +270,10 @@ public class AdminServiceImpl implements AdminService {
 
         PageRespDto<BookInfoRespDto> pageResp = PageRespDto.<BookInfoRespDto>builder()
                 .list(dtoList)
-                .total(bookPage.getTotal())
+                .total(total)
                 .pageNum(pageNum)
                 .pageSize(pageSize)
-                .totalPages((int) Math.ceil((double) bookPage.getTotal() / pageSize))
+                .totalPages((int) Math.ceil((double) total / pageSize))
                 .build();
 
         return RestResp.ok(pageResp);
