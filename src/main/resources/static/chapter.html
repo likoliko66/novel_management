@@ -147,7 +147,7 @@
     <div class="header">
         <div class="container">
             <div class="nav">
-                <a href="/">← 返回首页</a>
+                <a id="backBtn" href="/">← 返回首页</a>
                 <div class="reading-settings">
                     <div class="settings-btn" onclick="changeFontSize('small')">A-</div>
                     <div class="settings-btn" onclick="changeFontSize('medium')">A</div>
@@ -179,14 +179,28 @@
             const urlParams = new URLSearchParams(window.location.search);
             bookId = urlParams.get('bookId');
             chapterId = urlParams.get('chapterId');
+            const from = urlParams.get('from');
             
             token = localStorage.getItem('token');
             userId = localStorage.getItem('userId');
+            
+            updateBackButton(from);
             
             if (chapterId) {
                 loadChapter();
             }
         };
+        
+        function updateBackButton(from) {
+            const backBtn = document.getElementById('backBtn');
+            if (from === 'bookshelf') {
+                backBtn.textContent = '← 返回书架';
+                backBtn.href = '/bookshelf.html';
+            } else {
+                backBtn.textContent = '← 返回首页';
+                backBtn.href = '/';
+            }
+        }
 
         async function loadChapter() {
             try {

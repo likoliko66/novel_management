@@ -633,7 +633,7 @@
 
     function continueRead(bookId, chapterId) {
         if (chapterId) {
-            window.location.href = `/chapter.html?bookId=${bookId}&chapterId=${chapterId}`;
+            window.location.href = `/chapter.html?bookId=${bookId}&chapterId=${chapterId}&from=bookshelf`;
         } else {
             fetchFirstChapter(bookId);
         }
@@ -645,7 +645,7 @@
             const data = await response.json();
             if (data.code === 200 && data.data && data.data.length > 0) {
                 const firstChapter = data.data[0];
-                window.location.href = `/chapter.html?bookId=${bookId}&chapterId=${firstChapter.id}`;
+                window.location.href = `/chapter.html?bookId=${bookId}&chapterId=${firstChapter.id}&from=bookshelf`;
             } else {
                 showToast('暂无章节', 'error');
             }
