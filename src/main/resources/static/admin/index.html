@@ -182,103 +182,116 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="container">
-            <div class="nav">
-                <div class="logo">
-                    <i class="fas fa-crown"></i> 墨韵书阁管理中心
-                </div>
-                <div class="user-info">
-                    <div class="user-avatar" id="adminAvatar">管</div>
-                    <span id="adminName">管理员</span>
-                    <button class="btn-logout" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i> 退出
-                    </button>
-                </div>
+<div class="header">
+    <div class="container">
+        <div class="nav">
+            <div class="logo">
+                <i class="fas fa-crown"></i> 墨韵书阁管理中心
+            </div>
+            <div class="user-info">
+                <div class="user-avatar" id="adminAvatar">管</div>
+                <span id="adminName">管理员</span>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> 退出
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="dashboard">
-        <div class="container">
-            <h1 class="section-title">
-                <i class="fas fa-rocket"></i> 快捷操作
-            </h1>
+<div class="dashboard">
+    <div class="container">
+        <h1 class="section-title">
+            <i class="fas fa-rocket"></i> 快捷操作
+        </h1>
 
-            <div class="quick-actions">
-                <div class="action-card" onclick="goToAuthorAudit()">
-                    <div class="action-icon audit">
-                        <i class="fas fa-user-check"></i>
-                    </div>
-                    <div class="action-title">作者审核</div>
-                    <div class="action-desc">审核用户的作者申请，管理作者资格</div>
-                    <span class="action-badge" id="pendingAuthorCount">0 条待审核</span>
+        <div class="quick-actions">
+            <div class="action-card" onclick="goToAuthorAudit()">
+                <div class="action-icon audit">
+                    <i class="fas fa-user-check"></i>
                 </div>
-                <div class="action-card" onclick="goToBookAudit()">
-                    <div class="action-icon books">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <div class="action-title">作品审核</div>
-                    <div class="action-desc">审核用户发布的小说作品</div>
-                    <span class="action-badge" id="pendingBookCount">0 条待审核</span>
-                </div>
-                
+                <div class="action-title">作者审核</div>
+                <div class="action-desc">审核用户的作者申请，管理作者资格</div>
+                <span class="action-badge" id="pendingAuthorCount">0 条待审核</span>
             </div>
+            <div class="action-card" onclick="goToBookAudit()">
+                <div class="action-icon books">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="action-title">作品审核</div>
+                <div class="action-desc">审核用户发布的小说作品</div>
+                <span class="action-badge" id="pendingBookCount">0 条待审核</span>
+            </div>
+
         </div>
     </div>
+</div>
 
-    <div class="footer">
-        <p>© 2024 墨韵书阁管理中心 | 享受阅读的乐趣</p>
-    </div>
+<div class="footer">
+    <p>© 2024 墨韵书阁管理中心 | 享受阅读的乐趣</p>
+</div>
 
-    <script>
-        window.onload = function() {
-            loadAdminInfo();
-            loadPendingCounts();
-        };
+<script>
+    // 防止重复请求的标志
+    let isLoadingPendingCounts = false;
 
-        function loadAdminInfo() {
-            const username = localStorage.getItem('username');
-            if (username) {
-                document.getElementById('adminName').textContent = username;
-                document.getElementById('adminAvatar').textContent = username.charAt(0).toUpperCase();
-            }
+    window.onload = function() {
+        loadAdminInfo();
+        loadPendingCounts();
+    };
+
+    function loadAdminInfo() {
+        const username = localStorage.getItem('username');
+        if (username) {
+            document.getElementById('adminName').textContent = username;
+            document.getElementById('adminAvatar').textContent = username.charAt(0).toUpperCase();
+        }
+    }
+
+    async function loadPendingCounts() {
+        // 防止重复请求
+        if (isLoadingPendingCounts) {
+            console.log('待审核数量正在加载中，跳过重复请求');
+            return;
         }
 
-        async function loadPendingCounts() {
-            try {
-                const [authorResp, bookResp] = await Promise.all([
-                    fetch('/api/admin/author-applies?status=0'),
-                    fetch('/api/admin/books/pending')
-                ]);
+        isLoadingPendingCounts = true;
 
-                const authorData = await authorResp.json();
-                const bookData = await bookResp.json();
+        try {
+            const [authorResp, bookResp] = await Promise.all([
+                fetch('/api/admin/author-applies?status=0'),
+                fetch('/api/admin/books/pending')
+            ]);
 
-                const authorCount = authorData.code === 200 ? (authorData.data?.length || 0) : 0;
-                const bookCount = bookData.code === 200 ? (bookData.data?.length || 0) : 0;
+            const authorData = await authorResp.json();
+            const bookData = await bookResp.json();
 
-                document.getElementById('pendingAuthorCount').textContent = authorCount + ' 条待审核';
-                document.getElementById('pendingBookCount').textContent = bookCount + ' 条待审核';
-            } catch (error) {
-                console.error('加载待审核数量失败:', error);
-            }
+            const authorCount = authorData.code === 200 ? (authorData.data?.length || 0) : 0;
+            const bookCount = bookData.code === 200 ? (bookData.data?.total || 0) : 0;
+
+            document.getElementById('pendingAuthorCount').textContent = authorCount + ' 条待审核';
+            document.getElementById('pendingBookCount').textContent = bookCount + ' 条待审核';
+        } catch (error) {
+            console.error('加载待审核数量失败:', error);
+        } finally {
+            isLoadingPendingCounts = false;
         }
+    }
 
-        function goToAuthorAudit() {
-            window.location.href = '/admin/author-audit.html';
-        }
+    function goToAuthorAudit() {
+        window.location.href = '/admin/author-audit.html';
+    }
 
-        function goToBookAudit() {
-            window.location.href = '/admin/book-audit.html';
-        }
+    function goToBookAudit() {
+        window.location.href = '/admin/book-audit.html';
+    }
 
-        function logout() {
-            if (confirm('确定要退出登录吗？')) {
-                localStorage.clear();
-                window.location.href = '/';
-            }
+    function logout() {
+        if (confirm('确定要退出登录吗？')) {
+            localStorage.clear();
+            window.location.href = '/';
         }
-    </script>
+    }
+</script>
 </body>
 </html>
