@@ -95,7 +95,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional(readOnly = true)
     public RestResp<List<AuthorApplyRespDto>> listAuthorApplies(Integer status) {
         long startTime = System.currentTimeMillis();
-        
+
         LambdaQueryWrapper<AuthorApply> wrapper = new LambdaQueryWrapper<>();
         if (status != null) {
             wrapper.eq(AuthorApply::getStatus, status);
@@ -159,25 +159,25 @@ public class AdminServiceImpl implements AdminService {
     @Transactional(readOnly = true)
     public RestResp<PageRespDto<BookInfoRespDto>> listAllBooks(Integer pageNum, Integer pageSize, Integer status) {
         long startTime = System.currentTimeMillis();
-        
+
         if (pageNum == null || pageNum < 1) pageNum = 1;
         if (pageSize == null || pageSize < 1) pageSize = 10;
 
         int offset = (pageNum - 1) * pageSize;
-        
+
         log.debug("开始查询书籍列表 - pageNum: {}, pageSize: {}, status: {}", pageNum, pageSize, status);
-        
+
         List<Book> books;
         long total;
-        
+
         if (status != null) {
-            books = bookMapper.selectBookListByStatus(status, offset, pageSize);
-            total = bookMapper.countByStatus(status);
+            books = bookMapper.selectBookListByAuditStatus(status, offset, pageSize);
+            total = bookMapper.countByAuditStatus(status);
         } else {
             books = bookMapper.selectBookListAll(offset, pageSize);
             total = bookMapper.countAll();
         }
-        
+
         long queryTime = System.currentTimeMillis() - startTime;
         log.info("书籍列表查询完成 - 耗时: {}ms, 总记录数: {}, 当前页数量: {}", queryTime, total, books.size());
 
@@ -221,7 +221,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public RestResp<Void> auditBook(Long bookId, Integer auditStatus, String remark) {
         long startTime = System.currentTimeMillis();
-        
+
         Book book = bookMapper.selectById(bookId);
         if (book == null) {
             return RestResp.error("作品不存在");
@@ -244,7 +244,7 @@ public class AdminServiceImpl implements AdminService {
 
         bookMapper.updateById(book);
 
-        log.debug("审核作品耗时: {}ms, bookId: {}, auditStatus: {}", 
+        log.debug("审核作品耗时: {}ms, bookId: {}, auditStatus: {}",
                 System.currentTimeMillis() - startTime, bookId, auditStatus);
 
         return RestResp.ok();
@@ -254,7 +254,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional(readOnly = true)
     public RestResp<PageRespDto<BookInfoRespDto>> getPendingBooks(Integer pageNum, Integer pageSize) {
         long startTime = System.currentTimeMillis();
-        
+
         if (pageNum == null || pageNum < 1) pageNum = 1;
         if (pageSize == null || pageSize < 1) pageSize = 10;
 
@@ -349,10 +349,10 @@ public class AdminServiceImpl implements AdminService {
                 .distinct()
                 .collect(Collectors.toList());
 
-        Map<Long, String> categoryNameMap = categoryIds.isEmpty() 
-                ? Map.of() 
+        Map<Long, String> categoryNameMap = categoryIds.isEmpty()
+                ? Map.of()
                 : categoryMapper.selectBatchIds(categoryIds).stream()
-                        .collect(Collectors.toMap(Category::getId, Category::getName));
+                .collect(Collectors.toMap(Category::getId, Category::getName));
 
         return books.stream().map(book -> BookInfoRespDto.builder()
                 .id(book.getId())

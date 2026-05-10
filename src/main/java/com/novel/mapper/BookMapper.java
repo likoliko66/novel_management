@@ -15,12 +15,12 @@ public interface BookMapper extends BaseMapper<Book> {
     @Select("SELECT id, book_name, category_id, author_id, author_name, status, " +
             "visit_count, favorite_count, total_words, audit_status, update_time " +
             "FROM book " +
-            "WHERE status = #{status} " +
+            "WHERE audit_status = #{auditStatus} " +
             "ORDER BY id ASC " +
             "LIMIT #{offset}, #{limit}")
-    List<Book> selectBookListByStatus(@Param("status") Integer status, 
-                                      @Param("offset") Integer offset, 
-                                      @Param("limit") Integer limit);
+    List<Book> selectBookListByAuditStatus(@Param("auditStatus") Integer auditStatus,
+                                           @Param("offset") Integer offset,
+                                           @Param("limit") Integer limit);
 
     @Select("SELECT id, book_name, category_id, author_id, author_name, status, " +
             "visit_count, favorite_count, total_words, audit_status, update_time " +
@@ -29,8 +29,8 @@ public interface BookMapper extends BaseMapper<Book> {
             "LIMIT #{offset}, #{limit}")
     List<Book> selectBookListAll(@Param("offset") Integer offset, @Param("limit") Integer limit);
 
-    @Select("SELECT COUNT(*) FROM book WHERE status = #{status}")
-    Long countByStatus(@Param("status") Integer status);
+    @Select("SELECT COUNT(*) FROM book WHERE audit_status = #{auditStatus}")
+    Long countByAuditStatus(@Param("auditStatus") Integer auditStatus);
 
     @Select("SELECT COUNT(*) FROM book")
     Long countAll();
@@ -119,11 +119,4 @@ public interface BookMapper extends BaseMapper<Book> {
             "WHERE audit_status = 2 " +
             "ORDER BY favorite_count DESC LIMIT #{limit}")
     List<Book> selectMostFavoritedRecommend(@Param("limit") int limit);
-
-    /**
-     * 收藏推荐（不限制审核状态，用于测试）
-     */
-    @Select("SELECT id, book_name, author_name, favorite_count FROM book " +
-            "ORDER BY favorite_count DESC LIMIT #{limit}")
-    List<Book> selectMostFavoritedRecommendTest(@Param("limit") int limit);
 }

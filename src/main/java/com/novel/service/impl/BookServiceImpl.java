@@ -704,7 +704,7 @@ public class BookServiceImpl implements BookService {
 
             if (books == null || books.isEmpty()) {
                 System.out.println("查询结果为空，执行测试查询...");
-                List<Book> testBooks = bookMapper.selectMostFavoritedRecommendTest(20);
+                List<Book> testBooks = bookMapper.selectMostFavoritedRecommend(20);
                 System.out.println("测试查询结果数量: " + testBooks.size());
                 for (Book book : testBooks) {
                     System.out.println("  - " + book.getBookName() +

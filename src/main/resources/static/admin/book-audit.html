@@ -439,344 +439,344 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="container">
-            <div class="nav">
-                <div class="logo">
-                    <i class="fas fa-crown"></i> 墨韵书阁后台管理
-                </div>
-                <div class="nav-links">
-                    <a href="/admin/index.html"><i class="fas fa-home"></i> 管理首页</a>
-                    <a href="/admin/author-audit.html"><i class="fas fa-user-check"></i> 作者审核</a>
-                    <a href="/admin/book-audit.html" class="active"><i class="fas fa-book"></i> 作品审核</a>
-                    <a href="/"><i class="fas fa-arrow-left"></i> 返回首页</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
+<div class="header">
     <div class="container">
-        <h1 class="page-title">
-            <i class="fas fa-book"></i> 作品审核
-        </h1>
-
-        <div class="toolbar">
-            <div class="toolbar-left">
-                <select id="statusFilter" onchange="loadBooks()">
-                    <option value="">全部状态</option>
-                    <option value="0">草稿</option>
-                    <option value="1">待审核</option>
-                    <option value="2">已通过</option>
-                    <option value="3">已驳回</option>
-                </select>
-                <select id="pageSizeSelect" onchange="loadBooks()">
-                    <option value="10">每页10条</option>
-                    <option value="20">每页20条</option>
-                    <option value="50">每页50条</option>
-                </select>
-                <button class="btn btn-secondary" onclick="loadBooks()">
-                    <i class="fas fa-redo"></i> 刷新
-                </button>
+        <div class="nav">
+            <div class="logo">
+                <i class="fas fa-crown"></i> 墨韵书阁后台管理
             </div>
-            <div>
-                <span id="bookCount" style="color: #666;">共 0 条记录</span>
+            <div class="nav-links">
+                <a href="/admin/index.html"><i class="fas fa-home"></i> 管理首页</a>
+                <a href="/admin/author-audit.html"><i class="fas fa-user-check"></i> 作者审核</a>
+                <a href="/admin/book-audit.html" class="active"><i class="fas fa-book"></i> 作品审核</a>
+                <a href="/"><i class="fas fa-arrow-left"></i> 返回首页</a>
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="data-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>书名</th>
-                        <th>作者</th>
-                        <th>分类</th>
-                        <th>字数</th>
-                        <th>简介</th>
-                        <th>状态</th>
-                        <th>审核备注</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody id="bookTableBody">
-                    <tr>
-                        <td colspan="9">
-                            <div class="loading"><i class="fas fa-spinner fa-spin"></i> 加载中...</div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<div class="container">
+    <h1 class="page-title">
+        <i class="fas fa-book"></i> 作品审核
+    </h1>
 
-        <div class="pagination">
-            <button id="prevBtn" onclick="prevPage()" disabled>
-                <i class="fas fa-chevron-left"></i> 上一页
-            </button>
-            <span id="pageInfo">第 1 / 1 页</span>
-            <button id="nextBtn" onclick="nextPage()" disabled>
-                下一页 <i class="fas fa-chevron-right"></i>
+    <div class="toolbar">
+        <div class="toolbar-left">
+            <select id="statusFilter" onchange="loadBooks()">
+                <option value="">全部状态</option>
+                <option value="0">草稿</option>
+                <option value="1">待审核</option>
+                <option value="2">已发布</option>
+                <option value="3">已驳回</option>
+            </select>
+            <select id="pageSizeSelect" onchange="loadBooks()">
+                <option value="10">每页10条</option>
+                <option value="20">每页20条</option>
+                <option value="50">每页50条</option>
+            </select>
+            <button class="btn btn-secondary" onclick="loadBooks()">
+                <i class="fas fa-redo"></i> 刷新
             </button>
         </div>
-    </div>
-
-    <div id="auditModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">审核作品</h3>
-                <span class="close-modal" onclick="closeModal()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="book-detail" id="bookDetail">
-                </div>
-                <div class="form-group">
-                    <label>选择审核结果</label>
-                    <select id="auditStatus">
-                        <option value="2">通过</option>
-                        <option value="3">拒绝</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>审核备注（选填）</label>
-                    <textarea id="auditRemark" placeholder="请输入审核备注..."></textarea>
-                </div>
-                <input type="hidden" id="bookId">
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
-                <button class="btn btn-primary" onclick="submitAudit()">确认审核</button>
-            </div>
+        <div>
+            <span id="bookCount" style="color: #666;">共 0 条记录</span>
         </div>
     </div>
 
-    <div id="viewModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>作品详情</h3>
-                <span class="close-modal" onclick="closeViewModal()">&times;</span>
-            </div>
-            <div class="modal-body" id="viewContent">
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeViewModal()">关闭</button>
-            </div>
-        </div>
+    <div class="data-table">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>书名</th>
+                <th>作者</th>
+                <th>分类</th>
+                <th>字数</th>
+                <th>简介</th>
+                <th>状态</th>
+                <th>审核备注</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="bookTableBody">
+            <tr>
+                <td colspan="9">
+                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> 加载中...</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
-    <div id="toast" class="toast"></div>
+    <div class="pagination">
+        <button id="prevBtn" onclick="prevPage()" disabled>
+            <i class="fas fa-chevron-left"></i> 上一页
+        </button>
+        <span id="pageInfo">第 1 / 1 页</span>
+        <button id="nextBtn" onclick="nextPage()" disabled>
+            下一页 <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
 
-    <script>
-        let bookData = [];
-        let currentPage = 1;
-        let totalPages = 1;
-        let totalRecords = 0;
+<div id="auditModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">审核作品</h3>
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="book-detail" id="bookDetail">
+            </div>
+            <div class="form-group">
+                <label>选择审核结果</label>
+                <select id="auditStatus">
+                    <option value="2">通过</option>
+                    <option value="3">拒绝</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>审核备注（选填）</label>
+                <textarea id="auditRemark" placeholder="请输入审核备注..."></textarea>
+            </div>
+            <input type="hidden" id="bookId">
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+            <button class="btn btn-primary" onclick="submitAudit()">确认审核</button>
+        </div>
+    </div>
+</div>
 
-        window.onload = function() {
-            loadBooks();
-        };
+<div id="viewModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>作品详情</h3>
+            <span class="close-modal" onclick="closeViewModal()">&times;</span>
+        </div>
+        <div class="modal-body" id="viewContent">
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeViewModal()">关闭</button>
+        </div>
+    </div>
+</div>
 
-        async function loadBooks(pageNum = 1) {
-            const status = document.getElementById('statusFilter').value;
-            const pageSize = parseInt(document.getElementById('pageSizeSelect').value);
-            const tbody = document.getElementById('bookTableBody');
-            
-            currentPage = pageNum;
-            tbody.innerHTML = '<tr><td colspan="9"><div class="loading"><i class="fas fa-spinner fa-spin"></i> 加载中...</div></td></tr>';
-            
-            try {
-                let url = `/api/admin/books?pageNum=${pageNum}&pageSize=${pageSize}`;
-                if (status) {
-                    url += `&status=${status}`;
-                }
-                
-                const response = await fetch(url);
-                const data = await response.json();
-                
-                if (data.code === 200 && data.data) {
-                    bookData = data.data.list || [];
-                    totalRecords = data.data.total || 0;
-                    totalPages = data.data.totalPages || 1;
-                    
-                    document.getElementById('bookCount').textContent = `共 ${totalRecords} 条记录`;
-                    document.getElementById('pageInfo').textContent = `第 ${currentPage} / ${totalPages} 页`;
-                    
-                    document.getElementById('prevBtn').disabled = currentPage <= 1;
-                    document.getElementById('nextBtn').disabled = currentPage >= totalPages;
-                    
-                    renderBookTable();
-                } else {
-                    tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state">${data.msg || '加载失败'}</div></td></tr>`;
-                }
-            } catch (error) {
-                console.error('加载作品列表失败:', error);
-                tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state">网络错误</div></td></tr>';
+<div id="toast" class="toast"></div>
+
+<script>
+    let bookData = [];
+    let currentPage = 1;
+    let totalPages = 1;
+    let totalRecords = 0;
+
+    window.onload = function() {
+        loadBooks();
+    };
+
+    async function loadBooks(pageNum = 1) {
+        const status = document.getElementById('statusFilter').value;
+        const pageSize = parseInt(document.getElementById('pageSizeSelect').value);
+        const tbody = document.getElementById('bookTableBody');
+
+        currentPage = pageNum;
+        tbody.innerHTML = '<tr><td colspan="9"><div class="loading"><i class="fas fa-spinner fa-spin"></i> 加载中...</div></td></tr>';
+
+        try {
+            let url = `/api/admin/books?pageNum=${pageNum}&pageSize=${pageSize}`;
+            if (status) {
+                url += `&status=${status}`;
             }
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.code === 200 && data.data) {
+                bookData = data.data.list || [];
+                totalRecords = data.data.total || 0;
+                totalPages = data.data.totalPages || 1;
+
+                document.getElementById('bookCount').textContent = `共 ${totalRecords} 条记录`;
+                document.getElementById('pageInfo').textContent = `第 ${currentPage} / ${totalPages} 页`;
+
+                document.getElementById('prevBtn').disabled = currentPage <= 1;
+                document.getElementById('nextBtn').disabled = currentPage >= totalPages;
+
+                renderBookTable();
+            } else {
+                tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state">${data.msg || '加载失败'}</div></td></tr>`;
+            }
+        } catch (error) {
+            console.error('加载作品列表失败:', error);
+            tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state">网络错误</div></td></tr>';
+        }
+    }
+
+    function prevPage() {
+        if (currentPage > 1) {
+            loadBooks(currentPage - 1);
+        }
+    }
+
+    function nextPage() {
+        if (currentPage < totalPages) {
+            loadBooks(currentPage + 1);
+        }
+    }
+
+    function renderBookTable() {
+        const tbody = document.getElementById('bookTableBody');
+
+        if (bookData.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state">暂无作品记录</div></td></tr>';
+            return;
         }
 
-        function prevPage() {
-            if (currentPage > 1) {
-                loadBooks(currentPage - 1);
-            }
-        }
-
-        function nextPage() {
-            if (currentPage < totalPages) {
-                loadBooks(currentPage + 1);
-            }
-        }
-
-        function renderBookTable() {
-            const tbody = document.getElementById('bookTableBody');
-            
-            if (bookData.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state">暂无作品记录</div></td></tr>';
-                return;
-            }
-
-            const html = bookData.map(book => {
-                const auditStatus = book.auditStatus != null ? book.auditStatus : book.status;
-                const statusInfo = getStatusInfo(auditStatus);
-                
-                return `
-                    <tr>
-                        <td>${book.id}</td>
-                        <td>${book.bookName}</td>
-                        <td>${book.authorName}</td>
-                        <td>${book.categoryName}</td>
-                        <td>${book.totalWords || 0}</td>
-                        <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${book.description || ''}">${book.description || '-'}</td>
-                        <td><span class="status-badge ${statusInfo.class}">${statusInfo.text}</span></td>
-                        <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${book.auditRemark || ''}">${book.auditRemark || '-'}</td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="btn btn-primary btn-sm" onclick="viewBook(${book.id})">
-                                    <i class="fas fa-eye"></i> 查看
-                                </button>
-                                ${auditStatus === 1 ? `
-                                    <button class="btn btn-success btn-sm" onclick="showAuditModal(${book.id}, 2)">
-                                        <i class="fas fa-check"></i> 通过
-                                    </button>
-                                    <button class="btn btn-danger btn-sm" onclick="showAuditModal(${book.id}, 3)">
-                                        <i class="fas fa-times"></i> 拒绝
-                                    </button>
-                                ` : ''}
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-
-            tbody.innerHTML = html;
-        }
-
-        function getStatusInfo(status) {
-            switch (status) {
-                case 0:
-                    return { text: '草稿', class: 'status-pending' };
-                case 1:
-                    return { text: '待审核', class: 'status-pending' };
-                case 2:
-                    return { text: '已通过', class: 'status-approved' };
-                case 3:
-                    return { text: '已驳回', class: 'status-rejected' };
-                default:
-                    return { text: '未知', class: 'status-pending' };
-            }
-        }
-
-        function viewBook(bookId) {
-            const book = bookData.find(b => b.id === bookId);
-            if (!book) return;
-
+        const html = bookData.map(book => {
             const auditStatus = book.auditStatus != null ? book.auditStatus : book.status;
+            const statusInfo = getStatusInfo(auditStatus);
 
-            const html = `
-                <div class="book-detail">
-                    <div class="book-cover-placeholder">📖</div>
-                    <h4>${book.bookName}</h4>
-                    <p><strong>作者：</strong>${book.authorName}</p>
-                    <p><strong>分类：</strong>${book.categoryName}</p>
-                    <p><strong>字数：</strong>${book.totalWords || 0}字</p>
-                    <p><strong>审核状态：</strong><span class="status-badge ${getStatusInfo(auditStatus).class}">${getStatusInfo(auditStatus).text}</span></p>
-                </div>
-                <div class="book-detail">
-                    <h4>作品简介</h4>
-                    <p style="white-space: pre-wrap;">${book.description || '暂无简介'}</p>
-                </div>
-                <div class="book-detail">
-                    <h4>审核信息</h4>
-                    <p><strong>审核备注：</strong>${book.auditRemark || '-'}</p>
-                    <p><strong>创建时间：</strong>${book.createTime ? new Date(book.createTime).toLocaleString('zh-CN') : '-'}</p>
-                </div>
+            return `
+                <tr>
+                    <td>${book.id}</td>
+                    <td>${book.bookName}</td>
+                    <td>${book.authorName}</td>
+                    <td>${book.categoryName}</td>
+                    <td>${book.totalWords || 0}</td>
+                    <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${book.description || ''}">${book.description || '-'}</td>
+                    <td><span class="status-badge ${statusInfo.class}">${statusInfo.text}</span></td>
+                    <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${book.auditRemark || ''}">${book.auditRemark || '-'}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn btn-primary btn-sm" onclick="viewBook(${book.id})">
+                                <i class="fas fa-eye"></i> 查看
+                            </button>
+                            ${auditStatus === 1 ? `
+                                <button class="btn btn-success btn-sm" onclick="showAuditModal(${book.id}, 2)">
+                                    <i class="fas fa-check"></i> 通过
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="showAuditModal(${book.id}, 3)">
+                                    <i class="fas fa-times"></i> 拒绝
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                </tr>
             `;
+        }).join('');
 
-            document.getElementById('viewContent').innerHTML = html;
-            document.getElementById('viewModal').style.display = 'flex';
+        tbody.innerHTML = html;
+    }
+
+    function getStatusInfo(status) {
+        switch (status) {
+            case 0:
+                return { text: '草稿', class: 'status-pending' };
+            case 1:
+                return { text: '待审核', class: 'status-pending' };
+            case 2:
+                return { text: '已发布', class: 'status-approved' };
+            case 3:
+                return { text: '已驳回', class: 'status-rejected' };
+            default:
+                return { text: '未知', class: 'status-pending' };
         }
+    }
 
-        function closeViewModal() {
-            document.getElementById('viewModal').style.display = 'none';
-        }
+    function viewBook(bookId) {
+        const book = bookData.find(b => b.id === bookId);
+        if (!book) return;
 
-        function showAuditModal(bookId, defaultStatus) {
-            const book = bookData.find(b => b.id === bookId);
-            if (!book) return;
+        const auditStatus = book.auditStatus != null ? book.auditStatus : book.status;
 
-            const detailHtml = `
-                <h4>作品信息</h4>
-                <p><strong>书名：</strong>${book.bookName}</p>
+        const html = `
+            <div class="book-detail">
+                <div class="book-cover-placeholder">📖</div>
+                <h4>${book.bookName}</h4>
                 <p><strong>作者：</strong>${book.authorName}</p>
                 <p><strong>分类：</strong>${book.categoryName}</p>
-            `;
-            document.getElementById('bookDetail').innerHTML = detailHtml;
-            
-            document.getElementById('bookId').value = bookId;
-            document.getElementById('auditStatus').value = defaultStatus;
-            document.getElementById('auditRemark').value = '';
-            
-            const title = defaultStatus === 2 ? '通过作品' : '拒绝作品';
-            document.getElementById('modalTitle').textContent = title;
-            
-            document.getElementById('auditModal').style.display = 'flex';
-        }
+                <p><strong>字数：</strong>${book.totalWords || 0}字</p>
+                <p><strong>审核状态：</strong><span class="status-badge ${getStatusInfo(auditStatus).class}">${getStatusInfo(auditStatus).text}</span></p>
+            </div>
+            <div class="book-detail">
+                <h4>作品简介</h4>
+                <p style="white-space: pre-wrap;">${book.description || '暂无简介'}</p>
+            </div>
+            <div class="book-detail">
+                <h4>审核信息</h4>
+                <p><strong>审核备注：</strong>${book.auditRemark || '-'}</p>
+                <p><strong>创建时间：</strong>${book.createTime ? new Date(book.createTime).toLocaleString('zh-CN') : '-'}</p>
+            </div>
+        `;
 
-        function closeModal() {
-            document.getElementById('auditModal').style.display = 'none';
-        }
+        document.getElementById('viewContent').innerHTML = html;
+        document.getElementById('viewModal').style.display = 'flex';
+    }
 
-        async function submitAudit() {
-            const bookId = document.getElementById('bookId').value;
-            const status = document.getElementById('auditStatus').value;
-            const remark = document.getElementById('auditRemark').value;
+    function closeViewModal() {
+        document.getElementById('viewModal').style.display = 'none';
+    }
 
-            try {
-                const response = await fetch(`/api/admin/books/${bookId}/audit?auditStatus=${status}${remark ? `&remark=${encodeURIComponent(remark)}` : ''}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                const data = await response.json();
+    function showAuditModal(bookId, defaultStatus) {
+        const book = bookData.find(b => b.id === bookId);
+        if (!book) return;
 
-                if (data.code === 200) {
-                    showToast(status === '2' ? '审核通过成功' : '审核拒绝成功');
-                    closeModal();
-                    loadBooks(currentPage);
-                } else {
-                    showToast(data.msg || '审核失败', 'error');
-                }
-            } catch (error) {
-                console.error('审核失败:', error);
-                showToast('操作失败', 'error');
+        const detailHtml = `
+            <h4>作品信息</h4>
+            <p><strong>书名：</strong>${book.bookName}</p>
+            <p><strong>作者：</strong>${book.authorName}</p>
+            <p><strong>分类：</strong>${book.categoryName}</p>
+        `;
+        document.getElementById('bookDetail').innerHTML = detailHtml;
+
+        document.getElementById('bookId').value = bookId;
+        document.getElementById('auditStatus').value = defaultStatus;
+        document.getElementById('auditRemark').value = '';
+
+        const title = defaultStatus === 2 ? '通过作品' : '拒绝作品';
+        document.getElementById('modalTitle').textContent = title;
+
+        document.getElementById('auditModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('auditModal').style.display = 'none';
+    }
+
+    async function submitAudit() {
+        const bookId = document.getElementById('bookId').value;
+        const status = document.getElementById('auditStatus').value;
+        const remark = document.getElementById('auditRemark').value;
+
+        try {
+            const response = await fetch(`/api/admin/books/${bookId}/audit?auditStatus=${status}${remark ? `&remark=${encodeURIComponent(remark)}` : ''}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+
+            if (data.code === 200) {
+                showToast(status === '2' ? '审核通过成功' : '审核拒绝成功');
+                closeModal();
+                loadBooks(currentPage);
+            } else {
+                showToast(data.msg || '审核失败', 'error');
             }
+        } catch (error) {
+            console.error('审核失败:', error);
+            showToast('操作失败', 'error');
         }
+    }
 
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.style.background = type === 'error' ? '#e74c3c' : '#27ae60';
-            toast.style.display = 'block';
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 2000);
-        }
-    </script>
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.style.background = type === 'error' ? '#e74c3c' : '#27ae60';
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 2000);
+    }
+</script>
 </body>
 </html>
